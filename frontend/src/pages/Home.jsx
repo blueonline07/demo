@@ -6,13 +6,18 @@ import CreateArea from "../components/CreateArea";
 import api from "../api"
 export default function Home() {
     const [notes, setNotes] = useState([]);
-    useEffect(()=>{
-        getNotes()
-    }, [notes])
+    // useEffect(()=>{
+    //     getNotes()
+    // }, [notes])
     async function getNotes(){
-        const resp = await api.get('api/all/')
-        setNotes(resp.data)
-        console.log(notes)
+        try{
+            const resp = await api.get('api/all/')
+            setNotes(resp.data)
+            console.log(notes)
+        }
+        catch(err){
+            console.log(err)
+        }
     }
     async function createNote(title, content){
         await api.post('api/posts/', {
