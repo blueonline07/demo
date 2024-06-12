@@ -6,29 +6,30 @@ import CreateArea from "../components/CreateArea";
 import api from "../api"
 export default function Home() {
     const [notes, setNotes] = useState([]);
-    // useEffect(()=>{
-    //     getNotes()
-    // }, [notes])
+    useEffect(()=>{
+        getNotes()
+    }, [])
     async function getNotes(){
         try{
             const resp = await api.get('api/all/')
-            setNotes(resp.data)
-            console.log(notes)
+            setNotes(resp.data) 
         }
         catch(err){
             console.log(err)
         }
     }
     async function createNote(title, content){
-        await api.post('api/posts/', {
+        const resp = await api.post('api/posts/', {
             title:title, content: content
         })
-        console.log('hi')
+        const {title:x, content:y} = resp.data
+        setNotes([...notes, {title:x, content:y}])
     } 
     function deleteNote(id){
+        api.delete(`api/posts/${id}/`)
         setNotes(prevNotes => {
-            return prevNotes.filter((noteItem, index) => {
-                return index !== id
+            return prevNotes.filter((noteItem) => {
+                return noteItem.id != id
             })
         })
     }
@@ -38,7 +39,7 @@ export default function Home() {
             <Header />
                <CreateArea onCreate={createNote}/>
                {notes.map((noteItem, index) => {
-                return <Note key = {index} id={index} onDelete={deleteNote} title={noteItem.title} content={noteItem.content} />
+                return <Note key = {index} id={noteItem.id} onDelete={deleteNote} title={noteItem.title} content={noteItem.content} />
               })}
             <Footer />
         </div>

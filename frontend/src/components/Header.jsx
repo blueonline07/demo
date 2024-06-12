@@ -9,7 +9,7 @@ function Header() {
     }
   }
   async function getHere(location){
-    const resp = await axios.get(`https://geocode.search.hereapi.com/v1/geocode?at=${location.coords.latitude},${location.coords.longitude}&q=quan an&in=countryCode:VNM&apiKey=${import.meta.env.VITE_APIKEY}`)
+    const resp = await axios.get(`https://geocode.search.hereapi.com/v1/geocode?at=${location.coords.latitude},${location.coords.longitude}&q=quan com&in=countryCode:VNM&apiKey=${import.meta.env.VITE_APIKEY}`)
     console.log(resp.data)
   }
   
